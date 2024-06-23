@@ -1,7 +1,7 @@
 {
 	"Name" : "BetterBan",
-	"Description": "A better ban system for TF2",
-	"Version": "1.0.0",
+	"Description": "A better ban system for Northstar",
+	"Version": "0.2.0",
 	"LoadPriority": 1,
 	"RequiredOnClient": false,
 
@@ -18,11 +18,11 @@
     "ConVars": [
         {
 			"Name": "grant_admin",
-			"DefaultValue": "1002977500008,1006520194388,1003144999852,1007346968303,1010322472971,1009250199689,1000061763177,1011654320226,1007931063441,1009061754061,1001311332166"
+			"DefaultValue": ""
 		},
 		{
 			"Name": "disconnect_message",
-			"DefaultValue": "You have been banned from this server. Join our discord to appeal: discord.gg/awesometf" 
+			"DefaultValue": "You have been banned from this server. Please contact an admin to appeal." 
 		}
 	]
 }

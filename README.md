@@ -9,4 +9,4 @@ The Northstar Docker image recreates the R2Northstar folder on each startup, whi
 
 ## Todo
 - [ ] Allow for console to run these commands
-- [ ] Make public and publish to Thunderstore
+- [ ] Publish to Thunderstore
