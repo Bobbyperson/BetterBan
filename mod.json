@@ -18,11 +18,28 @@
     "ConVars": [
         {
 			"Name": "grant_admin",
-			"DefaultValue": ""
+			"DefaultValue": "1234,5678,9876"
 		},
 		{
 			"Name": "disconnect_message",
 			"DefaultValue": "You have been banned from this server. Please contact an admin to appeal." 
+		}
+	],
+	"ConCommands": [
+		{
+			"Name": "bban",
+			"Function": "ConsoleBanlistAdd",
+			"Context": "Console",
+			"HelpString": "Adds a player to the banlist",
+			"GameFlags": "GAMEDLL"
+			
+		},
+		{
+			"Name": "bunban",
+			"Function": "ConsoleBanlistRemove",
+			"Context": "Console",
+			"HelpString": "Removes a player from the banlist",
+			"GameFlags": "GAMEDLL"
 		}
 	]
 }

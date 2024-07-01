@@ -108,6 +108,55 @@ bool function BanlistAdd(entity player, array<string> args)
     return true
 }
 
+bool function ConsoleBanlistAdd( array<string> args )
+{
+    string uid = CheckPlayerName( args[0] )
+    if ( uid == "null" )
+    {
+        printt( "No player found with that name." )
+        return false
+    }
+    else if ( uid == "multiple" )
+    {
+        printt( "Multiple players found with that name, try to type it out exactly instead." )
+        return false
+    }
+    else if ( CheckRepeatedUID( uid ) )
+    {
+        printt( "That player is already on the banlist." )
+        return false
+    }
+    file.data += "\n" + uid
+    NSSaveFile( "banlist.txt", file.data )
+    printt( "Alright done." )
+    return true
+}
+
+bool function ConsoleBanlistRemove( array<string> args )
+{
+    string uid = args[0]
+    if ( !CheckRepeatedUID( uid ) )
+    {
+        printt( "That player is not banned." )
+        return false
+    }
+    string data = ""
+    foreach ( string line in split( file.data, "\n" ) )
+    {
+        if ( line != uid )
+        {
+            data += line
+            if ( line != "" )
+                data += "\n"
+        }
+    }
+    file.data = data
+    NSSaveFile( "banlist.txt", file.data )
+    printt( "Alright done." )
+    return true
+}
+    
+
 bool function BanlistAddUID(entity player, array<string> args)
 {
     if (!CheckBanlistAdmin( player ))
