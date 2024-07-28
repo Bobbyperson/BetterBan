@@ -103,7 +103,13 @@ bool function BanlistAdd(entity player, array<string> args)
 
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
-    BannedCheck( player )
+    entity banee = GetPlayerByUID( uid )
+    if ( banee == null )
+    {
+        Kprint( player, "Something went wrong kicking the player, try to kick them manually." )
+        return false
+    }
+    BannedCheck( banee )
     Kprint( player, "Alright done." )
     return true
 }
@@ -128,6 +134,13 @@ bool function ConsoleBanlistAdd( array<string> args )
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
+    entity banee = GetPlayerByUID( uid )
+    if ( banee == null )
+    {
+        printt( "Something went wrong kicking the player, try to kick them manually." )
+        return false
+    }
+    BannedCheck( banee )
     printt( "Alright done." )
     return true
 }
@@ -177,7 +190,6 @@ bool function BanlistAddUID(entity player, array<string> args)
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
-    BannedCheck( player )
     Kprint( player, "Alright done." )
     return true
 }
@@ -279,4 +291,17 @@ bool function CheckRepeatedUID( string uid )
         }
     }
     return false
+}
+
+entity function GetPlayerByUID( string uid )
+{
+    array<entity> players = GetPlayerArray()
+    foreach ( entity player in players )
+    {
+        if ( player.GetUID() == uid )
+        {
+            return player
+        }
+    }
+    return null
 }

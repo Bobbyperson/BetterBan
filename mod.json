@@ -1,7 +1,7 @@
 {
 	"Name" : "BetterBan",
 	"Description": "A better ban system for Northstar",
-	"Version": "0.2.0",
+	"Version": "0.2.1",
 	"LoadPriority": 1,
 	"RequiredOnClient": false,
 
