@@ -168,6 +168,20 @@ bool function ConsoleBanlistRemove( array<string> args )
     printt( "Alright done." )
     return true
 }
+
+bool function ConsoleBanlistAddUID( array<string> args )
+{
+    string uid = args[0]
+    if ( CheckRepeatedUID( uid ) )
+    {
+        printt( "That player is already on the banlist." )
+        return false
+    }
+    file.data += "\n" + uid
+    NSSaveFile( "banlist.txt", file.data )
+    printt( "Alright done." )
+    return true
+}
     
 
 bool function BanlistAddUID(entity player, array<string> args)

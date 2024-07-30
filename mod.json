@@ -40,6 +40,13 @@
 			"Context": "Console",
 			"HelpString": "Removes a player from the banlist",
 			"GameFlags": "GAMEDLL"
+		},
+		{
+			"Name": "bbanuid",
+			"Function": "ConsoleBanlistAddUID",
+			"Context": "Console",
+			"HelpString": "Adds a player by uid to the banlist",
+			"GameFlags": "GAMEDLL"
 		}
 	]
 }
