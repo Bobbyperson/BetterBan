@@ -1,4 +1,7 @@
 global function BetterBanInit
+global function ConsoleBanlistAdd
+global function ConsoleBanlistAddUID
+global function ConsoleBanlistRemove
 
 struct {
     entity player
@@ -13,6 +16,10 @@ void function BetterBanInit()
     AddClientCommandCallback("bban", BanlistAdd);
     AddClientCommandCallback("bunban", BanlistRemove);
     AddClientCommandCallback("bbanuid", BanlistAddUID);
+
+    #if PARSEABLE_LOGS
+    thread ReportBans()
+    #endif
 }
 
 void function BetterBanConnect( entity player )
@@ -179,6 +186,7 @@ bool function ConsoleBanlistAddUID( array<string> args )
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
+    CheckAllPlayers()
     printt( "Alright done." )
     return true
 }
@@ -204,6 +212,7 @@ bool function BanlistAddUID(entity player, array<string> args)
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
+    CheckAllPlayers()
     Kprint( player, "Alright done." )
     return true
 }
@@ -249,7 +258,7 @@ bool function BanlistRemove(entity player, array<string> args)
 
 bool function CheckBanlistAdmin( entity player )
 {
-    string cvar = GetConVarString( "grant_admin" )
+    string cvar = GetConVarString( "bb_grant_admin" )
 
 	array<string> admins = split( cvar, "," )
 	foreach ( string admin in admins )
@@ -319,3 +328,38 @@ entity function GetPlayerByUID( string uid )
     }
     return null
 }
+
+void function CheckAllPlayers()
+{
+    array<entity> players = GetPlayerArray()
+    foreach ( entity player in players )
+    {
+        BannedCheck( player )
+    }
+}
+
+#if PARSEABLE_LOGS
+void function ReportBans()
+{
+    while ( true )
+    {
+        if ( !NSDoesFileExist( "banlist.txt" ) )
+        {
+            print( "banlist.txt does not exist, creating it now" )
+            NSSaveFile( "banlist.txt", "" )
+        }
+        NSLoadFile( "banlist.txt", SuccessBanReport, FailureBanReport )
+        wait 10
+    }
+}
+
+void function SuccessBanReport( string data )
+{
+    log_custom("banlist", data)
+}
+
+void function FailureBanReport()
+{
+    print("Failed to load banlist.txt")
+}
+#endif

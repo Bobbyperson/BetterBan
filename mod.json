@@ -1,9 +1,13 @@
 {
 	"Name" : "BetterBan",
 	"Description": "A better ban system for Northstar",
-	"Version": "0.2.1",
+	"Version": "0.2.2",
 	"LoadPriority": 1,
 	"RequiredOnClient": false,
+	"Dependencies": {
+		"KARMA_ABUSE": "Karma Mod Abuse",
+		"PARSEABLE_LOGS": "laundmo.ParseableLog"
+	},
 
 	"Scripts": [
 		{
@@ -17,7 +21,7 @@
     
     "ConVars": [
         {
-			"Name": "grant_admin",
+			"Name": "bb_grant_admin",
 			"DefaultValue": "1234,5678,9876"
 		},
 		{
@@ -27,26 +31,25 @@
 	],
 	"ConCommands": [
 		{
-			"Name": "bban",
+			"Name": "cbban",
 			"Function": "ConsoleBanlistAdd",
-			"Context": "Console",
-			"HelpString": "Adds a player to the banlist",
-			"GameFlags": "GAMEDLL"
-			
+			"Context": "SERVER",
+			"Flags": 0,
+			"HelpString": "Adds a player to the banlist"
 		},
 		{
-			"Name": "bunban",
+			"Name": "cbunban",
 			"Function": "ConsoleBanlistRemove",
-			"Context": "Console",
-			"HelpString": "Removes a player from the banlist",
-			"GameFlags": "GAMEDLL"
+			"Context": "SERVER",
+			"Flags": 0,
+			"HelpString": "Removes a player from the banlist"
 		},
 		{
-			"Name": "bbanuid",
+			"Name": "cbbanuid",
 			"Function": "ConsoleBanlistAddUID",
-			"Context": "Console",
-			"HelpString": "Adds a player by uid to the banlist",
-			"GameFlags": "GAMEDLL"
+			"Context": "SERVER",
+			"Flags": 0,
+			"HelpString": "Adds a player by uid to the banlist"
 		}
 	]
 }
