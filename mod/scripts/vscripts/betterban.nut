@@ -18,7 +18,7 @@ void function BetterBanInit()
     AddClientCommandCallback("bbanuid", BanlistAddUID);
 
     #if PARSEABLE_LOGS
-    thread ReportBans()
+    ReportBans()
     #endif
 }
 
@@ -118,6 +118,9 @@ bool function BanlistAdd(entity player, array<string> args)
     }
     BannedCheck( banee )
     Kprint( player, "Alright done." )
+    #if PARSEABLE_LOGS
+    ReportBans()
+    #endif
     return true
 }
 
@@ -149,6 +152,9 @@ bool function ConsoleBanlistAdd( array<string> args )
     }
     BannedCheck( banee )
     printt( "Alright done." )
+    #if PARSEABLE_LOGS
+    ReportBans()
+    #endif
     return true
 }
 
@@ -173,6 +179,9 @@ bool function ConsoleBanlistRemove( array<string> args )
     file.data = data
     NSSaveFile( "banlist.txt", file.data )
     printt( "Alright done." )
+    #if PARSEABLE_LOGS
+    ReportBans()
+    #endif
     return true
 }
 
@@ -188,6 +197,9 @@ bool function ConsoleBanlistAddUID( array<string> args )
     NSSaveFile( "banlist.txt", file.data )
     CheckAllPlayers()
     printt( "Alright done." )
+    #if PARSEABLE_LOGS
+    ReportBans()
+    #endif
     return true
 }
     
@@ -214,6 +226,9 @@ bool function BanlistAddUID(entity player, array<string> args)
     NSSaveFile( "banlist.txt", file.data )
     CheckAllPlayers()
     Kprint( player, "Alright done." )
+    #if PARSEABLE_LOGS
+    ReportBans()
+    #endif
     return true
 }
 
@@ -249,6 +264,9 @@ bool function BanlistRemove(entity player, array<string> args)
 
     NSSaveFile( "banlist.txt", data )
     Kprint( player, "Alright done." )
+    #if PARSEABLE_LOGS
+    ReportBans()
+    #endif
     return true
 }
 
@@ -341,16 +359,15 @@ void function CheckAllPlayers()
 #if PARSEABLE_LOGS
 void function ReportBans()
 {
-    while ( true )
+    if ( !NSDoesFileExist( "banlist.txt" ) )
     {
-        if ( !NSDoesFileExist( "banlist.txt" ) )
-        {
-            print( "banlist.txt does not exist, creating it now" )
-            NSSaveFile( "banlist.txt", "" )
-        }
-        NSLoadFile( "banlist.txt", SuccessBanReport, FailureBanReport )
-        wait 10
+        print( "banlist.txt does not exist, creating it now" )
+        NSSaveFile( "banlist.txt", "" )
     }
+    if (GetGameState() != eGameState.Playing && GetGameState() != eGameState.PreGame && GetGameState() != eGameState.WaitingForPlayers && GetGameState() != eGameState.WaitingForPlayers){
+        return
+    }
+    NSLoadFile( "banlist.txt", SuccessBanReport, FailureBanReport )
 }
 
 void function SuccessBanReport( string data )
