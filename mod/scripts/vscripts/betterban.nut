@@ -364,7 +364,7 @@ void function ReportBans()
         print( "banlist.txt does not exist, creating it now" )
         NSSaveFile( "banlist.txt", "" )
     }
-    if (GetGameState() != eGameState.Playing && GetGameState() != eGameState.PreGame && GetGameState() != eGameState.WaitingForPlayers && GetGameState() != eGameState.WaitingForPlayers){
+    if (GetGameState() != eGameState.Playing && GetGameState() != eGameState.Prematch && GetGameState() != eGameState.WaitingForPlayers){
         return
     }
     NSLoadFile( "banlist.txt", SuccessBanReport, FailureBanReport )
