@@ -16,3 +16,4 @@ jobs:
         uses: ASpoonPlaysGames/squirrel-re-compiler@v3
         with:
           mods-directory: "${{ github.workspace }}/mods"
+          native-json: "${{ github.workspace }}/mods/.github/nativefuncs.json"
