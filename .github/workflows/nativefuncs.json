@@ -1,0 +1,42 @@
+{
+	"SERVER":[
+		{
+			"name":"cbban",
+			"helpText":"Adds a player to the banlist",
+			"returnTypeString":"bool",
+			"argTypes":"string name"
+		},
+    {
+			"name":"cbunban",
+			"helpText":"Removes a player from the banlist",
+			"returnTypeString":"bool",
+			"argTypes":"string uid"
+		},
+		{
+			"name":"cbbanuid",
+			"helpText":"Adds a player by uid to the banlist",
+			"returnTypeString":"bool",
+			"argTypes":"string uid"
+		}
+  ],
+ 	"CLIENT":[
+		{
+			"name":"bban",
+			"helpText":"Adds a player to the banlist",
+			"returnTypeString":"bool",
+			"argTypes":"string name"
+		},
+    {
+			"name":"bunban",
+			"helpText":"Removes a player from the banlist",
+			"returnTypeString":"bool",
+			"argTypes":"string uid"
+		},
+		{
+			"name":"bbanuid",
+			"helpText":"Adds a player by uid to the banlist",
+			"returnTypeString":"bool",
+			"argTypes":"string uid"
+		}
+  ]
+}
