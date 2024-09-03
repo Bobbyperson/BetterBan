@@ -2,6 +2,7 @@ global function BetterBanInit
 global function ConsoleBanlistAdd
 global function ConsoleBanlistAddUID
 global function ConsoleBanlistRemove
+global function ConsoleBanlistRemoveUID
 
 struct {
     entity player
@@ -13,9 +14,11 @@ void function BetterBanInit()
 {
     AddCallback_OnClientConnected( BetterBanConnect )
     AddCallback_OnClientConnecting( BetterBanConnect )
-    AddClientCommandCallback("bban", BanlistAdd);
-    AddClientCommandCallback("bunban", BanlistRemove);
-    AddClientCommandCallback("bbanuid", BanlistAddUID);
+    AddClientCommandCallback("bban", BanlistAdd)
+    AddClientCommandCallback("bunban", BanlistRemove)
+    AddClientCommandCallback("bbanuid", BanlistAddUID)
+
+    RefreshFileData()
 
     #if PARSEABLE_LOGS
     ReportBans()
@@ -166,6 +169,36 @@ bool function ConsoleBanlistRemove( array<string> args )
         printt( "That player is not banned." )
         return false
     }
+    RefreshFileData()
+    string data = ""
+    foreach ( string line in split( file.data, "\n" ) )
+    {
+        if ( line != uid )
+        {
+            data += line
+            if ( line != "" )
+                data += "\n"
+        }
+    }
+    file.data = data
+    NSSaveFile( "banlist.txt", file.data )
+    printt( "Alright done." )
+    #if PARSEABLE_LOGS
+    ReportBans()
+    #endif
+    return true
+}
+
+
+bool function ConsoleBanlistRemoveUID( array<string> args )
+{
+    string uid = args[0]
+    if ( !CheckRepeatedUID( uid ) )
+    {
+        printt( "That player is not banned." )
+        return false
+    }
+    RefreshFileData()
     string data = ""
     foreach ( string line in split( file.data, "\n" ) )
     {
@@ -244,7 +277,7 @@ bool function BanlistRemove(entity player, array<string> args)
         Kprint( player, "Usage: bunban <uid>" )
         return false
     }
-
+    RefreshFileData()
     string uid = args[0]
     if ( !CheckRepeatedUID( uid ) )
     {
@@ -261,7 +294,7 @@ bool function BanlistRemove(entity player, array<string> args)
         else 
             data += lines[i] + "\n"
     }
-
+    file.data = data
     NSSaveFile( "banlist.txt", data )
     Kprint( player, "Alright done." )
     #if PARSEABLE_LOGS
@@ -356,6 +389,21 @@ void function CheckAllPlayers()
     }
 }
 
+void function RefreshFileData()
+{
+    NSLoadFile( "banlist.txt", SuccessRefresh, FailureRefresh )
+}
+
+void function SuccessRefresh( string data )
+{
+    file.data = data
+}
+
+void function FailureRefresh()
+{
+    print("Failed to load banlist.txt")
+}
+
 #if PARSEABLE_LOGS
 void function ReportBans()
 {
@@ -372,6 +420,8 @@ void function ReportBans()
 
 void function SuccessBanReport( string data )
 {
+    if ( file.data != data )
+        file.data = data
     log_custom("banlist", data)
 }
 
