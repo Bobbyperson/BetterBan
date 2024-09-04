@@ -20,7 +20,7 @@ void function BetterBanInit()
     RefreshFileData()
 
     #if PARSEABLE_LOGS
-    AddCallback_GameStateEnter( eGameState.WaitingForPlayers, SelectFirstInfected )
+    AddCallback_GameStateEnter( eGameState.WaitingForPlayers, ReportBans )
     #endif
 }
 
