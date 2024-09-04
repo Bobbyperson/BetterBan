@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Northstar Docker image recreates the R2Northstar folder on each startup, which contains banlist.txt. This mod essentially recreates and improves on the ability to ban players. This mod requires Karma's Admin Abuse mod as a dependency.
+The Northstar Docker image recreates the R2Northstar folder on each startup, which contains banlist.txt. This mod essentially recreates and improves on the ability to ban players. You are able to send who is and isn't banned to an API via a custom version of laundmo's parseable logs.
 
 ## Features
 

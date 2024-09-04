@@ -84,29 +84,29 @@ bool function BanlistAdd(entity player, array<string> args)
 {
     if (!CheckBanlistAdmin( player ))
     {
-        Kprint( player, "You do not have permission to use this command." )
+        Chat_ServerPrivateMessage( player, "You do not have permission to use this command." )
         return false
     }
     if ( args.len() != 1 )
     {
-        Kprint( player, "Usage: bban <name>" )
+        Chat_ServerPrivateMessage( player, "Usage: bban <name>" )
         return false
     }
 
     string uid = CheckPlayerName( args[0] )
     if ( uid == "null" )
     {
-        Kprint( player, "No player found with that name." )
+        Chat_ServerPrivateMessage( player, "No player found with that name." )
         return false
     }
     else if ( uid == "multiple" )
     {
-        Kprint( player, "Multiple players found with that name, try to type it out exactly instead." )
+        Chat_ServerPrivateMessage( player, "Multiple players found with that name, try to type it out exactly instead." )
         return false
     }
     else if ( CheckRepeatedUID( uid ) )
     {
-        Kprint( player, "That player is already on the banlist." )
+        Chat_ServerPrivateMessage( player, "That player is already on the banlist." )
         return false
     }
 
@@ -115,11 +115,11 @@ bool function BanlistAdd(entity player, array<string> args)
     entity banee = GetPlayerByUID( uid )
     if ( banee == null )
     {
-        Kprint( player, "Something went wrong kicking the player, try to kick them manually." )
+        Chat_ServerPrivateMessage( player, "Something went wrong kicking the player, try to kick them manually." )
         return false
     }
     BannedCheck( banee )
-    Kprint( player, "Alright done." )
+    Chat_ServerPrivateMessage( player, "Alright done." )
     #if PARSEABLE_LOGS
     ReportBans()
     #endif
@@ -211,24 +211,24 @@ bool function BanlistAddUID(entity player, array<string> args)
 {
     if (!CheckBanlistAdmin( player ))
     {
-        Kprint( player,"You do not have permission to use this command." )
+        Chat_ServerPrivateMessage( player,"You do not have permission to use this command." )
         return false
     }
     if ( args.len() != 1 )
     {
-        Kprint( player, "Usage: bbanuid <uid>" )
+        Chat_ServerPrivateMessage( player, "Usage: bbanuid <uid>" )
         return false
     }
     string uid = args[0]
     if ( CheckRepeatedUID( uid ) )
     {
-        Kprint( player, "That player is already on the banlist." )
+        Chat_ServerPrivateMessage( player, "That player is already on the banlist." )
         return false
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
     CheckAllPlayers()
-    Kprint( player, "Alright done." )
+    Chat_ServerPrivateMessage( player, "Alright done." )
     #if PARSEABLE_LOGS
     ReportBans()
     #endif
@@ -239,19 +239,19 @@ bool function BanlistRemove(entity player, array<string> args)
 {
     if (!CheckBanlistAdmin( player ))
     {
-        Kprint( player,"You do not have permission to use this command." )
+        Chat_ServerPrivateMessage( player,"You do not have permission to use this command." )
         return false
     }
     if ( args.len() != 1 )
     {
-        Kprint( player, "Usage: bunban <uid>" )
+        Chat_ServerPrivateMessage( player, "Usage: bunban <uid>" )
         return false
     }
     RefreshFileData()
     string uid = args[0]
     if ( !CheckRepeatedUID( uid ) )
     {
-        Kprint( player, "That player is not banned." )
+        Chat_ServerPrivateMessage( player, "That player is not banned." )
         return false
     }
 
@@ -266,7 +266,7 @@ bool function BanlistRemove(entity player, array<string> args)
     }
     file.data = data
     NSSaveFile( "banlist.txt", data )
-    Kprint( player, "Alright done." )
+    Chat_ServerPrivateMessage( player, "Alright done." )
     #if PARSEABLE_LOGS
     ReportBans()
     #endif

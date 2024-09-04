@@ -5,7 +5,6 @@
 	"LoadPriority": 1,
 	"RequiredOnClient": false,
 	"Dependencies": {
-		"KARMA_ABUSE": "Karma Mod Abuse",
 		"PARSEABLE_LOGS": "laundmo.ParseableLog"
 	},
 
