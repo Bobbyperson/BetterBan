@@ -50,13 +50,6 @@
 			"Context": "SERVER",
 			"Flags": 0,
 			"HelpString": "Adds a player by uid to the banlist"
-		},
-		{
-			"Name": "cbunbanuid",
-			"Function": "ConsoleBanlistRemoveUID",
-			"Context": "SERVER",
-			"Flags": 0,
-			"HelpString": "Removes a player by uid from the banlist"
 		}
 	]
 }

@@ -2,7 +2,6 @@ global function BetterBanInit
 global function ConsoleBanlistAdd
 global function ConsoleBanlistAddUID
 global function ConsoleBanlistRemove
-global function ConsoleBanlistRemoveUID
 
 struct {
     entity player
@@ -21,7 +20,7 @@ void function BetterBanInit()
     RefreshFileData()
 
     #if PARSEABLE_LOGS
-    ReportBans()
+    AddCallback_GameStateEnter( eGameState.WaitingForPlayers, SelectFirstInfected )
     #endif
 }
 
@@ -162,35 +161,6 @@ bool function ConsoleBanlistAdd( array<string> args )
 }
 
 bool function ConsoleBanlistRemove( array<string> args )
-{
-    string uid = args[0]
-    if ( !CheckRepeatedUID( uid ) )
-    {
-        printt( "That player is not banned." )
-        return false
-    }
-    RefreshFileData()
-    string data = ""
-    foreach ( string line in split( file.data, "\n" ) )
-    {
-        if ( line != uid )
-        {
-            data += line
-            if ( line != "" )
-                data += "\n"
-        }
-    }
-    file.data = data
-    NSSaveFile( "banlist.txt", file.data )
-    printt( "Alright done." )
-    #if PARSEABLE_LOGS
-    ReportBans()
-    #endif
-    return true
-}
-
-
-bool function ConsoleBanlistRemoveUID( array<string> args )
 {
     string uid = args[0]
     if ( !CheckRepeatedUID( uid ) )
