@@ -198,7 +198,7 @@ bool function ConsoleBanlistAddUID( array<string> args )
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
-    CheckAllPlayers()
+    thread CheckAllPlayers()
     printt( "Alright done." )
     #if PARSEABLE_LOGS
     ReportBans()
@@ -227,7 +227,7 @@ bool function BanlistAddUID(entity player, array<string> args)
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
-    CheckAllPlayers()
+    thread CheckAllPlayers()
     Chat_ServerPrivateMessage( player, "Alright done." )
     #if PARSEABLE_LOGS
     ReportBans()
@@ -352,6 +352,7 @@ entity function GetPlayerByUID( string uid )
 
 void function CheckAllPlayers()
 {
+    wait 1.0
     array<entity> players = GetPlayerArray()
     foreach ( entity player in players )
     {
