@@ -4,8 +4,6 @@ global function ConsoleBanlistAddUID
 global function ConsoleBanlistRemove
 
 struct {
-    entity player
-    string uid
     string data
 } file
 
@@ -39,45 +37,39 @@ void function BetterBanConnect( entity player )
 
 void function BannedCheck( entity player )
 {
-    file.uid = player.GetUID()
-    file.player = player
-    NSLoadFile( "banlist.txt", SuccessBanFile, FailBanFile )
-}
 
-void function SuccessBanFile( string data )
-{
-    if ( file.data != data )
-        file.data = data
-
-    // separate by newlines
-    array<string> lines = split( data, "\n" )
-    if ( lines.len() == 0 )
+    void functionref( string ) SuccessBanFile = void function ( string data ) : (player)
     {
-        print( "banlist.txt is empty" )
-        return
-    }
+        if ( file.data != data )
+            file.data = data
 
-    foreach ( string line in lines )
-    {
-        if ( line == file.uid )
+        // separate by newlines
+        array<string> lines = split( data, "\n" )
+        if ( lines.len() == 0 )
         {
-            print( "Player " + file.player.GetPlayerName() + " is banned" )
-            //Chat_ServerBroadcast( "Player " + file.player.GetPlayerName() + " is whitelisted" )
-            string message = GetConVarString( "disconnect_message" )
-            NSDisconnectPlayer( file.player, message )
+            print( "banlist.txt is empty" )
             return
         }
+
+        foreach ( string line in lines )
+        {
+            if ( line == player.GetUID() )
+            {
+                print( "Player " + player.GetPlayerName() + " is banned" )
+                string message = GetConVarString( "disconnect_message" )
+                NSDisconnectPlayer( player, message )
+                return
+            }
+        }
     }
-    // string message = GetConVarString( "disconnect_message" )
-    // NSDisconnectPlayer( file.player, message )
-    // Chat_ServerBroadcast( "Player " + file.player.GetPlayerName() + " was kicked for not being whitelisted" )
-}
 
-void function FailBanFile()
-{
-    print( "Failed to load banlist.txt, does the file exist?" )
-}
+    void functionref( ) FailBanFile = void function ()
+    {
+        print( "Failed to load banlist.txt" )
+    }
 
+    NSLoadFile( "banlist.txt", SuccessBanFile, FailBanFile )
+}
 // =============
 // commands
 // =============
