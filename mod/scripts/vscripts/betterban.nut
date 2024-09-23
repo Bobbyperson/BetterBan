@@ -21,8 +21,6 @@ void function BetterBanInit()
     #if PARSEABLE_LOGS
     AddCallback_GameStateEnter( eGameState.WaitingForPlayers, ReportBans )
     #endif
-
-    thread PlayerCheckLoop()
 }
 
 void function BetterBanConnect( entity player )
@@ -343,15 +341,6 @@ entity function GetPlayerByUID( string uid )
         }
     }
     return null
-}
-
-void function PlayerCheckLoop()
-{
-    while (GetGameState() != eGameState.Postmatch)
-    {
-        thread CheckAllPlayers()
-        wait 30.0
-    }
 }
 
 void function CheckAllPlayers()
