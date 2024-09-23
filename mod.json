@@ -49,6 +49,13 @@
 			"Context": "SERVER",
 			"Flags": 0,
 			"HelpString": "Adds a player by uid to the banlist"
+		},
+		{
+			"Name": "reportbans",
+			"Function": "ConsoleReportBans",
+			"Context": "SERVER",
+			"Flags": 0,
+			"HelpString": "Reports all bans"
 		}
 	]
 }

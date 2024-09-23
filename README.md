@@ -18,8 +18,3 @@ After adding admin ids and your ban message in `mod.json`, the commands are as f
 - `bbanuid <uid>`
 
 Commands run in console are the same but begin with `c`. For example `cbban`
-
-## Todo
-
-- [x] Allow for console to run these commands
-- [ ] Publish to Thunderstore

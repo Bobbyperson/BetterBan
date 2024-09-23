@@ -2,6 +2,7 @@ global function BetterBanInit
 global function ConsoleBanlistAdd
 global function ConsoleBanlistAddUID
 global function ConsoleBanlistRemove
+global function ReportBans
 
 struct {
     string data
@@ -348,8 +349,8 @@ void function PlayerCheckLoop()
 {
     while (GetGameState() != eGameState.Postmatch)
     {
-        wait 30.0 
         thread CheckAllPlayers()
+        wait 30.0
     }
 }
 
@@ -378,8 +379,8 @@ void function FailureRefresh()
     print("Failed to load banlist.txt")
 }
 
-#if PARSEABLE_LOGS
-void function ReportBans()
+
+void function ReportBans( array<string> args )
 {
     if ( !NSDoesFileExist( "banlist.txt" ) )
     {
@@ -389,7 +390,9 @@ void function ReportBans()
     if (GetGameState() != eGameState.Playing && GetGameState() != eGameState.Prematch && GetGameState() != eGameState.WaitingForPlayers){
         return
     }
+    #if PARSEABLE_LOGS
     NSLoadFile( "banlist.txt", SuccessBanReport, FailureBanReport )
+    #endif
 }
 
 void function SuccessBanReport( string data )
@@ -403,4 +406,3 @@ void function FailureBanReport()
 {
     print("Failed to load banlist.txt")
 }
-#endif
