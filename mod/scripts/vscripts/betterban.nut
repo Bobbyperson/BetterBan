@@ -73,29 +73,29 @@ bool function BanlistAdd(entity player, array<string> args)
 {
     if (!CheckBanlistAdmin( player ))
     {
-        Chat_ServerPrivateMessage( player, "You do not have permission to use this command." )
+        Chat_ServerPrivateMessage( player, "You do not have permission to use this command.", true )
         return false
     }
     if ( args.len() != 1 )
     {
-        Chat_ServerPrivateMessage( player, "Usage: bban <name>" )
+        Chat_ServerPrivateMessage( player, "Usage: bban <name>", true )
         return false
     }
 
     string uid = CheckPlayerName( args[0] )
     if ( uid == "null" )
     {
-        Chat_ServerPrivateMessage( player, "No player found with that name." )
+        Chat_ServerPrivateMessage( player, "No player found with that name.", true )
         return false
     }
     else if ( uid == "multiple" )
     {
-        Chat_ServerPrivateMessage( player, "Multiple players found with that name, try to type it out exactly instead." )
+        Chat_ServerPrivateMessage( player, "Multiple players found with that name, try to type it out exactly instead.", true )
         return false
     }
     else if ( CheckRepeatedUID( uid ) )
     {
-        Chat_ServerPrivateMessage( player, "That player is already on the banlist." )
+        Chat_ServerPrivateMessage( player, "That player is already on the banlist.", true )
         return false
     }
 
@@ -104,11 +104,11 @@ bool function BanlistAdd(entity player, array<string> args)
     entity banee = GetPlayerByUID( uid )
     if ( banee == null )
     {
-        Chat_ServerPrivateMessage( player, "Something went wrong kicking the player, try to kick them manually." )
+        Chat_ServerPrivateMessage( player, "Something went wrong kicking the player, try to kick them manually.", true )
         return false
     }
     BannedCheck( banee )
-    Chat_ServerPrivateMessage( player, "Alright done." )
+    Chat_ServerPrivateMessage( player, "Alright done.", true )
     return true
 }
 
@@ -188,24 +188,24 @@ bool function BanlistAddUID(entity player, array<string> args)
 {
     if (!CheckBanlistAdmin( player ))
     {
-        Chat_ServerPrivateMessage( player,"You do not have permission to use this command." )
+        Chat_ServerPrivateMessage( player,"You do not have permission to use this command.", true )
         return false
     }
     if ( args.len() != 1 )
     {
-        Chat_ServerPrivateMessage( player, "Usage: bbanuid <uid>" )
+        Chat_ServerPrivateMessage( player, "Usage: bbanuid <uid>", true )
         return false
     }
     string uid = args[0]
     if ( CheckRepeatedUID( uid ) )
     {
-        Chat_ServerPrivateMessage( player, "That player is already on the banlist." )
+        Chat_ServerPrivateMessage( player, "That player is already on the banlist.", true )
         return false
     }
     file.data += "\n" + uid
     NSSaveFile( "banlist.txt", file.data )
     thread CheckAllPlayers()
-    Chat_ServerPrivateMessage( player, "Alright done." )
+    Chat_ServerPrivateMessage( player, "Alright done.", true )
     return true
 }
 
@@ -213,19 +213,19 @@ bool function BanlistRemove(entity player, array<string> args)
 {
     if (!CheckBanlistAdmin( player ))
     {
-        Chat_ServerPrivateMessage( player,"You do not have permission to use this command." )
+        Chat_ServerPrivateMessage( player,"You do not have permission to use this command.", true )
         return false
     }
     if ( args.len() != 1 )
     {
-        Chat_ServerPrivateMessage( player, "Usage: bunban <uid>" )
+        Chat_ServerPrivateMessage( player, "Usage: bunban <uid>", true )
         return false
     }
     RefreshFileData()
     string uid = args[0]
     if ( !CheckRepeatedUID( uid ) )
     {
-        Chat_ServerPrivateMessage( player, "That player is not banned." )
+        Chat_ServerPrivateMessage( player, "That player is not banned.", true )
         return false
     }
 
@@ -240,7 +240,7 @@ bool function BanlistRemove(entity player, array<string> args)
     }
     file.data = data
     NSSaveFile( "banlist.txt", data )
-    Chat_ServerPrivateMessage( player, "Alright done." )
+    Chat_ServerPrivateMessage( player, "Alright done.", true )
     return true
 }
 
