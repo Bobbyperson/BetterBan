@@ -17,10 +17,6 @@ void function BetterBanInit()
     AddClientCommandCallback("bbanuid", BanlistAddUID)
 
     RefreshFileData()
-
-    #if PARSEABLE_LOGS
-    AddCallback_GameStateEnter( eGameState.WaitingForPlayers, ReportBans )
-    #endif
 }
 
 void function BetterBanConnect( entity player )
@@ -113,9 +109,6 @@ bool function BanlistAdd(entity player, array<string> args)
     }
     BannedCheck( banee )
     Chat_ServerPrivateMessage( player, "Alright done." )
-    #if PARSEABLE_LOGS
-    ReportBans()
-    #endif
     return true
 }
 
@@ -147,9 +140,6 @@ bool function ConsoleBanlistAdd( array<string> args )
     }
     BannedCheck( banee )
     printt( "Alright done." )
-    #if PARSEABLE_LOGS
-    ReportBans()
-    #endif
     return true
 }
 
@@ -175,9 +165,6 @@ bool function ConsoleBanlistRemove( array<string> args )
     file.data = data
     NSSaveFile( "banlist.txt", file.data )
     printt( "Alright done." )
-    #if PARSEABLE_LOGS
-    ReportBans()
-    #endif
     return true
 }
 
@@ -193,9 +180,6 @@ bool function ConsoleBanlistAddUID( array<string> args )
     NSSaveFile( "banlist.txt", file.data )
     thread CheckAllPlayers()
     printt( "Alright done." )
-    #if PARSEABLE_LOGS
-    ReportBans()
-    #endif
     return true
 }
     
@@ -222,9 +206,6 @@ bool function BanlistAddUID(entity player, array<string> args)
     NSSaveFile( "banlist.txt", file.data )
     thread CheckAllPlayers()
     Chat_ServerPrivateMessage( player, "Alright done." )
-    #if PARSEABLE_LOGS
-    ReportBans()
-    #endif
     return true
 }
 
@@ -260,9 +241,6 @@ bool function BanlistRemove(entity player, array<string> args)
     file.data = data
     NSSaveFile( "banlist.txt", data )
     Chat_ServerPrivateMessage( player, "Alright done." )
-    #if PARSEABLE_LOGS
-    ReportBans()
-    #endif
     return true
 }
 
