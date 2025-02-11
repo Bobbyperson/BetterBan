@@ -1,12 +1,9 @@
 {
 	"Name" : "BetterBan",
 	"Description": "A better ban system for Northstar",
-	"Version": "0.2.2",
+	"Version": "0.3",
 	"LoadPriority": 1,
 	"RequiredOnClient": false,
-	"Dependencies": {
-		"PARSEABLE_LOGS": "laundmo.ParseableLog"
-	},
 
 	"Scripts": [
 		{
@@ -20,42 +17,21 @@
     
     "ConVars": [
         {
-			"Name": "bb_grant_admin",
-			"DefaultValue": "1234,5678,9876"
+			"Name": "api_url",
+			"DefaultValue": "https://relay.bluetick.dev"
 		},
 		{
-			"Name": "disconnect_message",
-			"DefaultValue": "You have been banned from this server. Please contact an admin to appeal." 
+			"Name": "ban_message",
+			"DefaultValue": "You have been banned from this server. Please join discord.gg/awesometf to appeal."
 		}
 	],
 	"ConCommands": [
 		{
-			"Name": "cbban",
-			"Function": "ConsoleBanlistAdd",
+			"Name": "checkbans",
+			"Function": "CheckBans",
 			"Context": "SERVER",
 			"Flags": 0,
-			"HelpString": "Adds a player to the banlist"
-		},
-		{
-			"Name": "cbunban",
-			"Function": "ConsoleBanlistRemove",
-			"Context": "SERVER",
-			"Flags": 0,
-			"HelpString": "Removes a player from the banlist"
-		},
-		{
-			"Name": "cbbanuid",
-			"Function": "ConsoleBanlistAddUID",
-			"Context": "SERVER",
-			"Flags": 0,
-			"HelpString": "Adds a player by uid to the banlist"
-		},
-		{
-			"Name": "reportbans",
-			"Function": "ConsoleReportBans",
-			"Context": "SERVER",
-			"Flags": 0,
-			"HelpString": "Reports all bans"
+			"HelpString": "Check if any players need to be banned"
 		}
 	]
 }
