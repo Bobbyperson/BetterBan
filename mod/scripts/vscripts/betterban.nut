@@ -17,7 +17,7 @@ void function BetterBanConnect( entity player )
 
     void functionref( HttpRequestResponse ) onSuccess = void function ( HttpRequestResponse response ) : (player)
     {
-        table<string, string> data = JSONParseString( response.body )
+        table<string, string> data = DecodeJSON( response.body )
 
         if ( data["banned"].tolower() == "true" )
         {
