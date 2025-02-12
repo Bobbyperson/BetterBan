@@ -9,38 +9,54 @@ void function BetterBanInit()
 
 void function BetterBanConnect( entity player )
 {
-    string apiUrl = GetConVarString( "api_url" )
-
-    HttpRequest request
+    // Construct the GET request
+    HttpRequest request = { ... }
     request.method = HttpRequestMethod.GET
-    request.url    = apiUrl + "/is-banned?uid=" + player.GetUID()
+    request.url    = "https://relay.bluetick.dev/is-banned?uid=" + player.GetUID()
 
-    void functionref( HttpRequestResponse ) onSuccess = void function ( HttpRequestResponse response ) : (player)
+    // Define success callback
+    void functionref( HttpRequestResponse ) OnSuccess = void function ( HttpRequestResponse response ) : (player)
     {
-        table data = DecodeJSON( response.body )
-        string is_banned = expect string( data["banned"] )
-        string banMessage = expect string( data["ban_message"] )
-
-        if ( data.banned == "true" )
+        try
         {
-            if ( banMessage == "" )
+            table decoded
+            foreach( key, val in DecodeJSON(response.body) )
+                decoded = expect table(val)
+
+            if ( response.statusCode == 200 && decoded.len() != 0 )
             {
-                banMessage = GetConVarString( "disconnect_message" ) 
+                string banned      = expect string(decoded["banned"])
+                string ban_message = expect string(decoded["ban_message"])
+
+                if ( banned.tolower() == "true" )
+                {
+                    if ( ban_message == "" )
+                        ban_message = GetConVarString( "ban_message" )
+
+                    NSDisconnectPlayer( player, ban_message )
+
+                    print("[BetterBan] Kicked player '" + player.GetPlayerName() + "' (UID: " + player.GetUID() + "). Reason: " + ban_message)
+                }
             }
-
-            NSDisconnectPlayer( player, banMessage )
-
-            print("Kicking player '" + player.GetPlayerName() +"' (UID: " + player.GetUID() + "). Reason: " + banMessage)
+            else
+            {
+                print("[BetterBan] Ban check returned no data or failed. Status: " + response.statusCode + " | Body: " + response.body)
+            }
+        }
+        catch ( exception )
+        {
+            print("[BetterBan] Error: Failed to decode ban response.")
         }
     }
 
-    void functionref( HttpRequestFailure ) onFailure = void function ( HttpRequestFailure failure ) : (player)
+    void functionref( HttpRequestFailure ) OnFailure = void function ( HttpRequestFailure failure ) : (player)
     {
-        print("Ban check request failed for UID: " + player.GetUID() + " Error: " + failure.errorMessage)
+        print("[BetterBan] Ban check request failed for " + player.GetPlayerName() + " (UID: " + player.GetUID() + ") — Error: " + failure.errorMessage)
     }
 
-    NSHttpRequest( request, onSuccess, onFailure )
+    NSHttpRequest( request, OnSuccess, OnFailure )
 }
+
 
 void function CheckBans()
 {
