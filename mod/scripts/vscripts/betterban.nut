@@ -18,10 +18,11 @@ void function BetterBanConnect( entity player )
     void functionref( HttpRequestResponse ) onSuccess = void function ( HttpRequestResponse response ) : (player)
     {
         table data = DecodeJSON( response.body )
+        string is_banned = expect string( data["banned"] )
+        string banMessage = expect string( data["ban_message"] )
 
-        if ( data["banned"].tolower() == "true" )
+        if ( data.banned == "true" )
         {
-            string banMessage = data["ban_message"]
             if ( banMessage == "" )
             {
                 banMessage = GetConVarString( "disconnect_message" ) 
@@ -33,9 +34,9 @@ void function BetterBanConnect( entity player )
         }
     }
 
-    void functionref( HttpRequestFailure ) onFailure = void function ( HttpRequestFailure failure ) : (uid)
+    void functionref( HttpRequestFailure ) onFailure = void function ( HttpRequestFailure failure ) : (player)
     {
-        print("Ban check request failed for UID: " + uid + " Error: " + failure.error)
+        print("Ban check request failed for UID: " + player.GetUID() + " Error: " + failure.errorMessage)
     }
 
     NSHttpRequest( request, onSuccess, onFailure )
@@ -43,7 +44,7 @@ void function BetterBanConnect( entity player )
 
 void function CheckBans()
 {
-    for ( player in GetPlayers() )
+    foreach ( entity player in GetPlayerArray() )
     {
         BetterBanConnect( player )
     }
