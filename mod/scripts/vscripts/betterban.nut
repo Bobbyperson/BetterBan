@@ -13,7 +13,7 @@ void function BetterBanConnect( entity player )
 
     HttpRequest request
     request.method = HttpRequestMethod.GET
-    request.url    = apiUrl + "/is-banned?uid=" + uid
+    request.url    = apiUrl + "/is-banned?uid=" + player.GetUID()
 
     void functionref( HttpRequestResponse ) onSuccess = void function ( HttpRequestResponse response ) : (player)
     {
