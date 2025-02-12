@@ -19,9 +19,7 @@ void function BetterBanConnect( entity player )
     {
         try
         {
-            table decoded
-            foreach( key, val in DecodeJSON(response.body) )
-                decoded = expect table(val)
+            table decoded = DecodeJSON(response.body)
 
             if ( response.statusCode == 200 && decoded.len() != 0 )
             {
