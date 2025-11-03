@@ -12,7 +12,7 @@ void function BetterBanConnect( entity player )
     // Construct the GET request
     HttpRequest request = { ... }
     request.method = HttpRequestMethod.GET
-    request.url    = "https://relay.bluetick.dev/is-banned?uid=" + player.GetUID()
+    request.url    = "https://relay.awesome.tf/is-banned?uid=" + player.GetUID()
 
     // Define success callback
     void functionref( HttpRequestResponse ) OnSuccess = void function ( HttpRequestResponse response ) : (player)
